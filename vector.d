@@ -19,6 +19,7 @@ module vector;
 
 
 import std.math : sqrt, pow;
+import std.traits : isNumeric;
 
 pure T[] add(T)(T[] a, T[] b) {
     assert(a.length == b.length);
@@ -59,7 +60,7 @@ pure real eu_distance(T)(T[] a, T[] b) {
     return eu_norm(sub(a, b));
 }
 
-pure T[] mul(S, T)(S s, T[] a) {
+pure T[] mul(S, T)(S s, T[] a) if (isNumeric!S) {
     T[] res = a.dup;
     foreach (i; 0 .. a.length) {
         res[i] *= s;
@@ -67,7 +68,7 @@ pure T[] mul(S, T)(S s, T[] a) {
     return res;
 }
 
-pure T[] mul(T, S)(T[] a, S s) {
+pure T[] mul(T, S)(T[] a, S s) if (isNumeric!S) {
     return mul(s, a);
 }
 
