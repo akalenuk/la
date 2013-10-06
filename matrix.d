@@ -19,13 +19,13 @@ module matrix;
 import std.stdio;
 
 pure T[][] mul(T)(T[][] A, T[][] B) {
-    ulong AH = A.length;
-    ulong AW = A[0].length;
+    size_t AH = A.length;
+    size_t AW = A[0].length;
     foreach (a; A){
         assert(a.length == AW);
     }
-    ulong BH = B.length;
-    ulong BW = B[0].length;
+    size_t BH = B.length;
+    size_t BW = B[0].length;
     foreach (b; B){
         assert(b.length == BW);
     }

@@ -72,9 +72,9 @@ pure T[] mul(T, S)(T[] a, S s) {
 }
 
 // Levi-Civita symbol. a is a list of indices
-pure int levi_civita(ulong[] a) { // this should not be exported
+pure int levi_civita(size_t[] a) { // this should not be exported
     int n = 0;
-    ulong[] t = a.dup;
+    size_t[] t = a.dup;
    
     foreach (i; 0 .. a.length) {
         foreach (j; 0 .. (a.length - i - 1)) {
@@ -82,7 +82,7 @@ pure int levi_civita(ulong[] a) { // this should not be exported
                 return 0;
             } else if (t[j] > t[j + 1]) {
                 n += 1;
-                ulong r = t[j];
+                size_t r = t[j];
                 t[j] = t[j+1];
                 t[j+1] = r;
             }
@@ -97,19 +97,19 @@ pure int levi_civita(ulong[] a) { // this should not be exported
 
 // This is a multidimentional cross product. A is an array of vectors, not a matrix
 pure T[] cross(T)(T[][] A) {
-    ulong N = A.length;
+    size_t N = A.length;
     assert(N >= 2);
     foreach (a; A) {
         assert(a.length == N + 1);
     }
-    ulong DIMM = A[0].length;
+    size_t DIMM = A[0].length;
 
     T[] res;
     res.length = DIMM;
     foreach (i; 0 .. DIMM) {
         res[i] = 0;
         foreach (jk; 0 .. pow(DIMM, N)) {
-            ulong[] v_ijk;
+            size_t[] v_ijk;
             v_ijk ~= [i];
             foreach (j; 0 .. N) {
                 v_ijk ~= [((jk / (pow(DIMM, (N - j - 1)))) % DIMM)];
@@ -129,16 +129,16 @@ pure T[] cross(T)(T[][] A) {
 
 // multidimensional "triple" product. A is an array of vectors
 pure T nple(T)(T[][] A) {
-    ulong N = A.length;
+    size_t N = A.length;
     assert(N >= 3);
     foreach (a; A) {
         assert(a.length == N);
     }
-    ulong DIMM = A[0].length;
+    size_t DIMM = A[0].length;
 
     T res = 0.0;
     foreach (jk; 0 .. pow(DIMM, N)) {
-        ulong[] v_ijk;
+        size_t[] v_ijk;
         foreach (j; 0 .. N) {
             v_ijk ~= [(jk / pow(DIMM, N - j - 1)) % DIMM ];
         }
