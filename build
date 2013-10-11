@@ -1,1 +1,1 @@
-dmd playground.d vector.d matrix.d types.d operators.d -w -unittest
+dmd playground.d vector.d matrix.d types.d -w -unittest
