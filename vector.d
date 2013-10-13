@@ -12,7 +12,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-// TODO decent unit testing
 // TODO refactor variable names and types
 
 module vector;
@@ -21,8 +20,10 @@ module vector;
 import std.math : sqrt, pow;
 import std.traits : isNumeric;
 
-pure T[] add(T)(T[] a, T[] b) {
+pure T[] add(T)(T[] a, T[] b) 
+in {
     assert(a.length == b.length);
+} body {
     T[] res = a.dup;
     foreach (i; 0 .. a.length) {
         res[i] +=  b[i];
@@ -30,8 +31,10 @@ pure T[] add(T)(T[] a, T[] b) {
     return res;
 }
 
-pure T[] sub(T)(T[] a, T[] b) {
+pure T[] sub(T)(T[] a, T[] b) 
+in {
     assert(a.length == b.length);
+} body {
     T[] res = a.dup;
     foreach (i; 0 .. a.length) {
         res[i] -=  b[i];
@@ -39,24 +42,26 @@ pure T[] sub(T)(T[] a, T[] b) {
     return res;
 }
 
-pure T dot(T)(T[] a, T[] b) {
+pure nothrow S dot(S = real, T)(T[] a, T[] b) 
+in {
     assert(a.length == b.length);
-    T res = 0;
+} body {
+    S res = 0;
     foreach (i; 0 .. a.length) {
         res += a[i] * b[i];
     }
     return res;
 }
 
-pure real eu_norm(T)(T[] a) {
-    real res2 = 0.0;
+pure nothrow S eu_norm(S = real, T)(T[] a) {
+    S res2 = 0.0;
     foreach (i; 0 .. a.length) {
         res2 += pow(cast(real)a[i], 2);
     }
     return sqrt(res2);
 }
 
-pure real eu_distance(T)(T[] a, T[] b) {
+pure S eu_distance(S = real, T)(T[] a, T[] b) {
     return eu_norm(sub(a, b));
 }
 
@@ -73,7 +78,7 @@ pure T[] mul(T, S)(T[] a, S s) if (isNumeric!S) {
 }
 
 // Levi-Civita symbol. a is a list of indices
-pure int levi_civita(size_t[] a) { // this should not be exported
+private pure int levi_civita(size_t[] a) {
     int n = 0;
     size_t[] t = a.dup;
    
@@ -97,12 +102,14 @@ pure int levi_civita(size_t[] a) { // this should not be exported
 }
 
 // This is a multidimentional cross product. A is an array of vectors, not a matrix
-pure T[] cross(T)(T[][] A) {
-    size_t N = A.length;
-    assert(N >= 2);
+pure T[] cross(T)(T[][] A) 
+in {
+    assert(A.length >= 2);
     foreach (a; A) {
-        assert(a.length == N + 1);
+        assert(a.length == A.length + 1);
     }
+} body {
+    size_t N = A.length;
     size_t DIMM = A[0].length;
 
     T[] res;
@@ -129,12 +136,14 @@ pure T[] cross(T)(T[][] A) {
 }
 
 // multidimensional "triple" product. A is an array of vectors
-pure T nple(T)(T[][] A) {
-    size_t N = A.length;
-    assert(N >= 3);
+pure T nple(T)(T[][] A) 
+in {  
+    assert(A.length >= 3);
     foreach (a; A) {
-        assert(a.length == N);
+        assert(a.length == A.length);
     }
+} body {
+    size_t N = A.length;
     size_t DIMM = A[0].length;
 
     T res = 0.0;
