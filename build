@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 dmd playground.d vector.d matrix.d -w -unittest
-=======
-dmd playground.d vector.d matrix.d types.d -w -unittest
->>>>>>> 672f198726b318a232379905359b680d6b65c723
