@@ -16,7 +16,7 @@ limitations under the License.
 
 module matrix;
 
-import std.stdio;
+import std.math : sqrt, pow;
 
 pure nothrow bool isMatrix(T)(T[][] A) {
     foreach (i; 1 .. A.length){
@@ -30,6 +30,21 @@ pure nothrow bool isMatrix(T)(T[][] A) {
 pure nothrow bool isSquare(T)(T[][] A) {
     return isMatrix(A) && (A.length == A[0].length);
 }
+
+
+pure nothrow S eu_norm(S = real, T)(T[][] A) 
+in {
+    assert( isMatrix(A) );
+} body {
+    S res = 0.0;
+    foreach (i; 0 .. A.length) {
+        foreach (j; 0 .. A[0].length) {
+            res += pow(A[i][j], 2);
+        }
+    }
+    return sqrt(res);
+}
+
 
 pure nothrow T[][] transpose(T)(T[][] A) 
 in {
@@ -123,4 +138,6 @@ unittest{
 
     assert(minor([[1, 2, 3], [4, 5, 6], [7, 8, 9]], 2, 1) == [[1, 3], [4, 6]]);
     assert(det([[1, 2, 3], [3, 2, 1], [2, 1, 3]]) == -12);
+
+    assert(eu_norm([[1.0, 1.0], [1.0, 1.0]]) == 2.0);
 }

@@ -46,19 +46,19 @@ pure nothrow S dot(S = real, T)(T[] a, T[] b)
 in {
     assert(a.length == b.length);
 } body {
-    S res = 0;
+    S res = 0.0;
     foreach (i; 0 .. a.length) {
         res += a[i] * b[i];
     }
     return res;
 }
 
-pure nothrow S eu_norm(S = real, T)(T[] a) {
-    S res2 = 0.0;
+pure nothrow S eu_norm(S = real, T)(T[] a) if (isNumeric!T) {
+    S res = 0.0;
     foreach (i; 0 .. a.length) {
-        res2 += pow(cast(real)a[i], 2);
+        res += pow(a[i], 2);
     }
-    return sqrt(res2);
+    return sqrt(res);
 }
 
 pure S eu_distance(S = real, T)(T[] a, T[] b) {
@@ -168,7 +168,7 @@ unittest{
     assert(add([1, 2, 3], [4, 5, 6]) == [5, 7, 9]);
     assert(sub([5, 7, 9], [1, 2, 3]) == [4, 5, 6]);
     assert(dot([1, 2, 3], [1, 2, 3]) == 14);
-    assert(eu_norm([3, 4]) == 5.0);
+    assert(eu_norm([3.0, 4.0]) == 5.0);
     assert(eu_distance([4, 5], [1, 1]) == 5.0);
     assert(mul(5, [1, 2, 3]) == [5, 10, 15]);
     assert(mul([1.0, 2.0, 3.0], 5) == [5.0, 10.0, 15.0]);

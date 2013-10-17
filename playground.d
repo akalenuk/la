@@ -2,6 +2,8 @@ import vector;
 import matrix;
 import std.stdio;
 
+import std.math : sqrt, pow;
+
 // This doesn't belong to the library, but I'll just keep it for now.
 
 void main()
@@ -26,4 +28,6 @@ void main()
     printf("minor1: %d, %d\n", h[0][0], h[0][1]);
     printf("minor2: %d, %d\n", h[1][0], h[1][1]);
     printf("det %d\n", det([[1, 2, 3], [3, 2, 1], [2, 1, 3]]));
+
+    printf("sqrt %f\n", sqrt(pow(4.0, 2)));
 }
